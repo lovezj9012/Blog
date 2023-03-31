@@ -2,7 +2,7 @@
 
 namespace Blog.Model
 {
-    public class BlogType
+    public class BlogType : BaseId
     {
         /// <summary>
         /// 类型名称

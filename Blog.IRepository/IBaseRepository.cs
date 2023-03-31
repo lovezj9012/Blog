@@ -34,6 +34,13 @@ namespace Blog.IRepository
         Task<T> FindByIdAsync(int id);
 
         /// <summary>
+        /// 根据条件异步查询数据
+        /// </summary>
+        /// <param name="func">条件表达式</param>
+        /// <returns>T</returns>
+        Task<T> FindAsync(Expression<Func<T, bool>> func);
+
+        /// <summary>
         /// 异步查询全部数据
         /// </summary>
         /// <returns>List<T></returns>

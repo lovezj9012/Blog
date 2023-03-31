@@ -2,7 +2,7 @@
 
 namespace Blog.Model
 {
-    public class BlogNews
+    public class BlogNews : BaseId
     {
         /// <summary>
         /// 标题

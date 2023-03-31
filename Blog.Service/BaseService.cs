@@ -28,6 +28,11 @@ namespace Blog.Service
             return await baseRepository.EditAsync(enity);
         }
 
+        public async Task<T> FindAsync(Expression<Func<T, bool>> func)
+        {
+            return await baseRepository.FindAsync(func);
+        }
+
         public async Task<T> FindByIdAsync(int id)
         {
             return await baseRepository.FindByIdAsync(id);

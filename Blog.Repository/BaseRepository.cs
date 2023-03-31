@@ -31,6 +31,11 @@ namespace Blog.Repository
             return await base.UpdateAsync(enity);
         }
 
+        public async Task<T> FindAsync(Expression<Func<T, bool>> func)
+        {
+            return await base.GetFirstAsync(func);
+        }
+
         /// <summary>
         /// 该方法加virtual修饰，是为了子类可以重写方法返回自定义属性字段的字段
         /// </summary>

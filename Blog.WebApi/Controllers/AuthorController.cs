@@ -1,7 +1,10 @@
-﻿using Blog.IService;
+﻿using AutoMapper;
+using Blog.IService;
 using Blog.Model;
 using Blog.WebApi.Utils.ApiResult;
 using Blog.WebApi.Utils.MD5Util;
+using Blog.WebApi.Utils.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +12,7 @@ namespace Blog.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AuthorController : ControllerBase
     {
         private readonly IAuthorService authorService;
@@ -57,7 +61,24 @@ namespace Blog.WebApi.Controllers
         public async Task<ActionResult<ApiResult>> EditAuthor(string name)
         {
             int id = Convert.ToInt32(this.User.FindFirst("Id").Value);
-            return ApiResultHelper.Error("未完结");
+            Blog.Model.Author author = await authorService.FindAsync(a => a.Id == id);
+            author.Name = name;
+            bool result = await authorService.EditAsync(author);
+            if (!result)
+            {
+                return ApiResultHelper.Error("修改失败！");
+            }
+            return ApiResultHelper.Success("修改成功！");
+        }
+
+        //当使用多个httpget等特性是需要增加action名称，否则swagger会报fetch error错误
+        [HttpGet("GetAuthorById")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ApiResult>> GetAuthorById([FromServices] IMapper iMapper, int id)
+        {
+            Author author = await authorService.FindAsync(c => c.Id == id);
+            var authorDto = iMapper.Map<AuthorDto>(author);
+            return ApiResultHelper.Success(authorDto);
         }
     }
 }

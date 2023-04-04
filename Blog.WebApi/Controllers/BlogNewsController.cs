@@ -1,12 +1,15 @@
 ﻿using Blog.IService;
+using Blog.Model;
 using Blog.WebApi.Utils.ApiResult;
 using Blog.WebApi.Utils.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BlogNewsController : ControllerBase
     {
         private readonly IBlogNewsService blogNewsService;
@@ -28,9 +31,9 @@ namespace Blog.WebApi.Controllers
         }
 
         [HttpPost("BlogNew")]
-        public async Task<ActionResult<ApiResult>> AddBlogNews(BlogNews blog)
+        public async Task<ActionResult<ApiResult>> AddBlogNews(BlogNewsDto blog)
         {
-            Blog.Model.BlogNews blogNews = new Model.BlogNews();
+            BlogNews blogNews = new BlogNews();
             blogNews.Title = blog.Title;
             blogNews.Content = blog.Content;
             blogNews.TypeId = blog.TypeId;

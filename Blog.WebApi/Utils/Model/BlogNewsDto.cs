@@ -1,6 +1,6 @@
 ﻿namespace Blog.WebApi.Utils.Model
 {
-    public class BlogNews
+    public class BlogNewsDto
     {
         public string Title { get; set; }
 

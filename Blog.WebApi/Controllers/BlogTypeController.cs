@@ -1,6 +1,7 @@
 ﻿using Blog.IService;
 using Blog.Model;
 using Blog.WebApi.Utils.ApiResult;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace Blog.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BlogTypeController : ControllerBase
     {
         private readonly IBlogTypeService blogTypeService;

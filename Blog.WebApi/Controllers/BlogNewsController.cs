@@ -1,9 +1,11 @@
-﻿using Blog.IService;
+﻿using AutoMapper;
+using Blog.IService;
 using Blog.Model;
 using Blog.WebApi.Utils.ApiResult;
 using Blog.WebApi.Utils.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SqlSugar;
 
 namespace Blog.WebApi.Controllers
 {
@@ -22,7 +24,8 @@ namespace Blog.WebApi.Controllers
         [HttpGet("BlogNews")]
         public async Task<ActionResult<ApiResult>> GetBlogNews()
         {
-            var data = await blogNewsService.QueryAsync();
+            int id = Convert.ToInt32(this.User.FindFirst("Id").Value);
+            var data = await blogNewsService.QueryAsync(b => b.AuthorId == id);
             if (data == null)
             {
                 return ApiResultHelper.Error("未查询到数据！");
@@ -38,6 +41,7 @@ namespace Blog.WebApi.Controllers
             blogNews.Content = blog.Content;
             blogNews.TypeId = blog.TypeId;
             blogNews.Time = DateTime.Now;
+            blogNews.AuthorId = Convert.ToInt32(this.User.FindFirst("Id").Value);
             bool flag = await blogNewsService.AddAsync(blogNews);
             if (!flag)
             {
@@ -74,6 +78,21 @@ namespace Blog.WebApi.Controllers
                 return ApiResultHelper.Error("删除失败！");
             }
             return ApiResultHelper.Success(flag);
+        }
+
+        [HttpGet("GetPage")]
+        public async Task<ApiResult> GetPage([FromServices] IMapper iMapper,int page,int size)
+        {
+            int total = 0;
+            PageModel model = new PageModel
+            {
+                PageIndex = page,
+                PageSize = size,
+                TotalCount = total
+            };
+            var blogNews = await blogNewsService.PageAsync(c => c.Id == c.Id, model);
+            var blogDto = iMapper.Map<List<BlogNewsDto>>(blogNews);
+            return ApiResultHelper.Success(blogDto, model.TotalCount);
         }
 
 

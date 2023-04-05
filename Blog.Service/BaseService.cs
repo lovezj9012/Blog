@@ -43,9 +43,9 @@ namespace Blog.Service
             return await baseRepository.PageAsync(page, size, total);
         }
 
-        public async Task<List<T>> PageAsync(Expression<Func<T, bool>> func, int page, int size, RefAsync<int> total)
+        public async Task<List<T>> PageAsync(Expression<Func<T, bool>> func, PageModel model)
         {
-            return await baseRepository.PageAsync(func, page, size, total);
+            return await baseRepository.PageAsync(func, model);
         }
 
         public async Task<List<T>> QueryAsync()

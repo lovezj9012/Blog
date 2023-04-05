@@ -69,6 +69,6 @@ namespace Blog.IRepository
         /// <param name="size">页总数</param>
         /// <param name="total">总记录数</param>
         /// <returns>List<T></returns>
-        Task<List<T>> PageAsync(Expression<Func<T, bool>> func, int page, int size, RefAsync<int> total);
+        Task<List<T>> PageAsync(Expression<Func<T, bool>> func, PageModel model);
     }
 }

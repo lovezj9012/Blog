@@ -15,7 +15,7 @@ namespace Blog.WebApi.Utils.ApiResult
             };
         }
 
-        public static ApiResult Success(dynamic data, RefAsync<int> total)
+        public static ApiResult Success(dynamic data, int total)
         {
             return new ApiResult()
             {

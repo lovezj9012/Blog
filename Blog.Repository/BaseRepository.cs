@@ -51,12 +51,8 @@ namespace Blog.Repository
             return await base.Context.Queryable<T>().ToPageListAsync(page, size, total);
         }
 
-        public virtual async Task<List<T>> PageAsync(Expression<Func<T, bool>> func, int page, int size, RefAsync<int> total)
+        public virtual async Task<List<T>> PageAsync(Expression<Func<T, bool>> func, PageModel model)
         {
-            PageModel model = new PageModel();
-            model.PageIndex = page;
-            model.PageSize = size;
-            model.TotalCount = total;
             return await base.GetPageListAsync(func, model);
         }
 

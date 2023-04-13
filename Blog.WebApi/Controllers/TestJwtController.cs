@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Blog.WebApi.Utils._Filter;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.WebApi.Controllers
@@ -18,6 +19,18 @@ namespace Blog.WebApi.Controllers
         public string Authorize()
         {
             return "Authorize";
+        }
+
+        [TypeFilter(typeof(CustomeResouceFilterAttribute))]
+        [HttpGet("GetCache")]
+        public IActionResult TestCache(string name)
+        {
+            return new JsonResult(new
+            {
+                name = "zhangsan",
+                age = 13,
+                sex = true
+            });
         }
     }
 }

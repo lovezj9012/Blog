@@ -78,7 +78,11 @@ builder.Services.AddCustomIOC();
 builder.Services.AddCustomJwt();
 #endregion
 
+//automapper
 builder.Services.AddAutoMapper(typeof(CustomeAutoMapperProfile));
+
+//»º´æ
+builder.Services.AddMemoryCache();
 
 
 
